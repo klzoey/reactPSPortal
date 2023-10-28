@@ -8,8 +8,18 @@ const App = () => {
     ];
 
     const executeRunbook = (webhookUrl) => {
-        // Implement POST request logic here
-    };
+      fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ /* any required parameters */ }),
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch((error) => console.error('Error:', error));
+  };
+  
 
     return (
         <div>
@@ -18,7 +28,7 @@ const App = () => {
                 {runbooks.map((runbook, index) => (
                     <li key={index}>
                         {runbook.name}
-                        <button onClick={() => executeRunbook(runbook.webhookUrl)}>Execute</button>
+                        <button className="button button-primary" onClick={() => executeRunbook(runbook.webhookUrl)}>Execute</button>
                     </li>
                 ))}
             </ul>
