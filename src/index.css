@@ -50,4 +50,27 @@
   .button-info:hover {
     background-color: #138496;
   }
+  .title-bar {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    font-size: 24px;
+  }
   
+  .content {
+    transition: opacity 0.5s;
+  }
+  
+  .content-behind {
+    opacity: 0.5;
+    transition: opacity 0.5s;
+  }
+  
+  .execute-view {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+    

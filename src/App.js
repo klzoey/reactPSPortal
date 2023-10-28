@@ -1,6 +1,13 @@
 import React from 'react';
+import Select from 'react-select';
+import { useSpring, animated } from 'react-spring';
+
 
 const App = () => {
+
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [showExecute, setShowExecute] = useState(false);
+
     const runbooks = [
         { name: 'Runbook1', webhookUrl: 'http://webhook1.com' },
         { name: 'Runbook2', webhookUrl: 'http://webhook2.com' },
@@ -21,19 +28,36 @@ const App = () => {
   };
   
 
-    return (
-        <div>
-            <h1>My PowerShell Runbook Portal</h1>
-            <ul>
-                {runbooks.map((runbook, index) => (
-                    <li key={index}>
-                        {runbook.name}
-                        <button className="button button-primary" onClick={() => executeRunbook(runbook.webhookUrl)}>Execute</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+  const fade = useSpring({
+    opacity: showExecute ? 1 : 0,
+    transform: showExecute ? 'translateY(0%)' : 'translateY(-50%)',
+  });
 
-export default App;
+  const onSelectChange = (option) => {
+    setSelectedOption(option);
+    setShowExecute(true);
+  };
+
+  return (
+    <div>
+      <div className="title-bar">My PowerShell Runbook Portal</div>
+      <div className={showExecute ? 'content-behind' : 'content'}>
+        <Select
+          options={runbooks}
+          onChange={onSelectChange}
+          placeholder="Select a Runbook"
+        />
+      </div>
+      <animated.div style={fade}>
+        {showExecute && (
+          <div className="execute-view">
+            <h2>Execute {selectedOption.label}</h2>
+            <button className="button button-primary" onClick={() => executeRunbook(selectedOption.value)}>
+              Execute
+            </button>
+          </div>
+        )}
+      </animated.div>
+    </div>
+  );
+};
